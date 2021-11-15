@@ -30,9 +30,6 @@ runs:
       dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
       dotnet codeartifact-creds install
       dotnet nuget remove source nuget.org
-    env:
-      AWS_ACCESS_KEY_ID: AKIASLEPH4YW4DMGXSUO
-      AWS_SECRET_ACCESS_KEY: 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
     shell: bash
   
   - name: List NuGet Configuration
