@@ -1,5 +1,14 @@
 name: "Setup AWS CodeArtifact"
 description: "Sets up the dotnet build environment to use AWS CodeArtifact"
+inputs:
+  aws-code-artifact-nuget-source:  # id of input
+    description: 'Fully Qualified NuGet Feed Source'
+    required: true
+  inputs:
+  nuget-feed-name:  # id of input
+    description: 'Fully Qualified NuGet Feed Source'
+    required: false
+    default: 'NeoAgi'
 
 runs:
   using: "composite"
@@ -30,6 +39,7 @@ runs:
       dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
       dotnet codeartifact-creds install
       dotnet nuget remove source nuget.org
+      dotnet nuget add source "${{ inputs.aws-code-artifact-nuget-source }}" -n "${{ inputs.nuget-feed-name }}"    
     shell: bash
   
   - name: List NuGet Configuration
