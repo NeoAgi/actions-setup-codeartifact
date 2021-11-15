@@ -1,0 +1,36 @@
+name: "Setup AWS CodeArtifact"
+description: "Sets up the dotnet build environment to use AWS CodeArtifact"
+
+runs:
+  using: "composite"
+  env:
+          AWS_ACCESS_KEY_ID: AKIASLEPH4YW4DMGXSUO
+          AWS_SECRET_ACCESS_KEY: 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
+          DOTNET_NOLOGO: true
+
+  steps: 
+  # Add the 3.1 SDK, needed to install the AWS Code Artifact Credential Provider
+  - name: Setup .NET Core 3.1
+    uses: actions/setup-dotnet@v1
+    with:
+      dotnet-version: 3.1.x
+      
+  - name: Setup .NET 6.0
+    uses: actions/setup-dotnet@v1
+    with:
+      dotnet-version: '6.0.*'
+      
+  - name: Print Core Versions
+    run: | 
+      dotnet --version
+      aws --version
+      dotnet nuget --version
+      
+  - name: Prepare NuGet Repository
+    run: | 
+      dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
+      dotnet codeartifact-creds install
+      dotnet nuget remove source nuget.org
+  
+  - name: List NuGet Configuration
+    run: dotnet nuget list source
