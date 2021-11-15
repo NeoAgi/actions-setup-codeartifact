@@ -3,10 +3,6 @@ description: "Sets up the dotnet build environment to use AWS CodeArtifact"
 
 runs:
   using: "composite"
-  env:
-          AWS_ACCESS_KEY_ID: AKIASLEPH4YW4DMGXSUO
-          AWS_SECRET_ACCESS_KEY: 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
-          DOTNET_NOLOGO: true
 
   steps: 
   # Add the 3.1 SDK, needed to install the AWS Code Artifact Credential Provider
@@ -14,6 +10,8 @@ runs:
     uses: actions/setup-dotnet@v1
     with:
       dotnet-version: 3.1.x
+    env:
+      DOTNET_NOLOGO: "true"
       
   - name: Setup .NET 6.0
     uses: actions/setup-dotnet@v1
@@ -25,12 +23,18 @@ runs:
       dotnet --version
       aws --version
       dotnet nuget --version
+    shell: bash
       
   - name: Prepare NuGet Repository
     run: | 
       dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
       dotnet codeartifact-creds install
       dotnet nuget remove source nuget.org
+    env:
+      AWS_ACCESS_KEY_ID: AKIASLEPH4YW4DMGXSUO
+      AWS_SECRET_ACCESS_KEY: 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
+    shell: bash
   
   - name: List NuGet Configuration
     run: dotnet nuget list source
+    shell: bash
