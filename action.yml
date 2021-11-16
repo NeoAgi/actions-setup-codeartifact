@@ -1,12 +1,16 @@
 name: "Setup AWS CodeArtifact"
 description: "Sets up the dotnet build environment to use AWS CodeArtifact"
 inputs:
-  aws-code-artifact-nuget-source:  # id of input
+  aws-code-artifact-nuget-source:  
     description: 'Fully Qualified NuGet Feed Source'
     required: true
-  nuget-feed-name:  # id of input
-    description: 'Fully Qualified NuGet Feed Source'
+  nuget-feed-name:  
+    description: 'Short Name for NuGet Repository Source'
     required: true
+  target-sdk-version: 
+    description: 'Target SDK Version to Install'
+    required: false
+    default: '*'
 
 runs:
   using: "composite"
@@ -23,7 +27,9 @@ runs:
   - name: Setup .NET 6.0
     uses: actions/setup-dotnet@v1
     with:
-      dotnet-version: '6.0.*'
+      dotnet-version: ${{ inputs.target-sdk-version }}
+    env:
+      DOTNET_NOLOGO: "true"
       
   - name: Print Core Versions
     run: | 
