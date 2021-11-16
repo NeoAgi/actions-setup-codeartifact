@@ -10,7 +10,7 @@ inputs:
   target-sdk-version: 
     description: 'Target SDK Version to Install'
     required: false
-    default: '*'
+    default: '6.0.*'
 
 runs:
   using: "composite"
