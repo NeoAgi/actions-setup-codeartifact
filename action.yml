@@ -16,14 +16,6 @@ runs:
   using: "composite"
 
   steps: 
-  # Add the 3.1 SDK, needed to install the AWS Code Artifact Credential Provider
-  - name: Setup .NET Core 3.1
-    uses: actions/setup-dotnet@v1
-    with:
-      dotnet-version: 3.1.x
-    env:
-      DOTNET_NOLOGO: "true"
-      
   - name: Setup .NET 6.0
     uses: actions/setup-dotnet@v1
     with:
@@ -34,7 +26,6 @@ runs:
   - name: Print Core Versions
     run: | 
       dotnet --version
-      aws --version
       dotnet nuget --version
     shell: bash
       
